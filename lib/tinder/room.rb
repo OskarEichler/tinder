@@ -226,7 +226,7 @@ module Tinder
     # via #parse_message, see #parse_message for format of returned message)
     #
     def search(term)
-      encoded_term = URI.encode(term)
+      encoded_term = Addressable::URI.encode(term)
 
       room_messages = connection.get("/search/#{encoded_term}.json")["messages"].select do |message|
         message[:room_id] == id
