@@ -73,7 +73,7 @@ describe Tinder::Connection do
       end
 
       connection = Tinder::Connection.new('test', :username => 'user', :password => 'pass')
-      expect(connection.ssl?).to eq(true)
+      expect(connection.options[:ssl_options][:verify]).to eq(true)
     end
 
     it "should should allow peer verification to be turned off" do
@@ -82,7 +82,7 @@ describe Tinder::Connection do
       end
 
       connection = Tinder::Connection.new('test', :username => 'user', :password => 'pass', :ssl_verify => false)
-      expect(connection.connection.ssl.verify?).to eq(false)
+      expect(connection.options[:ssl_options][:verify]).to eq(false)
     end
 
     it "should allow passing any ssl_options to Faraday" do
@@ -98,7 +98,7 @@ describe Tinder::Connection do
           :ca_file => "/etc/ssl/custom"
         }
       )
-      expect(connection.connection.ssl.to_hash).to eq(:verify => false, :ca_path => "/usr/lib/ssl/certs", :ca_file => "/etc/ssl/custom")
+      expect(connection.options[:ssl_options].to_hash).to eq(:verify => false, :ca_path => "/usr/lib/ssl/certs", :ca_file => "/etc/ssl/custom")
     end
   end
 end
